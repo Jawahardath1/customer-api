@@ -1,0 +1,58 @@
+spring:
+  profiles:
+    active: dev
+
+---
+spring:
+  datasource:
+    hikari: 
+      pool-name: hikari-cp
+      maximumPoolSize: 2 
+      minimumIdle: 2
+      data-source-properties:
+        cacachePrepStmts: true
+  jpa:    
+    show-sql: true
+    hibernate:
+      ddl-auto: update 
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        
+---
+logging:
+  pattern:
+    console: "%clr(%-5p) %m%n"
+    file: "%d{yyyyMMdd HH:mm:ss.SSS} [%thread] %-3level %logger{5} - %msg %n"
+  file:
+    max-history: 30
+    max-size: 10MB
+  level:
+    root: info
+    jdbc: info
+    jdbc.sqlonly: info
+    jdbc.sqltiming: info
+    jdbc.audit: off
+    jdbc.resultset: info
+    jdbc.connection: off
+    org.springframework: info
+    com.example: info
+
+---
+spring:
+    profiles: dev
+    datasource:
+      driverClassName: com.mysql.cj.jdbc.Driver
+      jdbc-url: jdbc:mysql://localhost:3306/customer_api?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false
+      username: root
+      password: password
+      maxActive: 10 
+      minimumIdle: 10
+        
+---
+mybatis:
+    mapper-locations: classpath*:META-INF/mybatis/mapper/*.xml
+#    configuration:
+#        map-underscore-to-camkel-case: true
+#        default-fetch-size: 100
+#        default-statement-timeout: 30
